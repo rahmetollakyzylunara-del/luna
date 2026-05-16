@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ЛингвоФикс PRO</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:linear-gradient(135deg,#ff6ec4,#7873f5,#42d4ff,#ffe66d);
+    min-height:100vh;
+    color:#222;
+}
+
+body.dark{
+    background:#111827;
+    color:white;
+}
+
+header{
+    background:#2b2bff;
+    color:white;
+    padding:20px;
+    text-align:center;
+    font-size:34px;
+    font-weight:bold;
+}
+
+nav{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+    padding:15px;
+}
+
+nav button{
+    background:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+nav button:hover{background:#ffe66d}
+
+.page{
+    display:none;
+    width:90%;
+    max-width:1000px;
+    margin:20px auto;
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 0 20px rgba(0,0,0,0.3);
+}
+
+body.dark .page{background:#1f2937}
+
+.active{display:block}
+
+.task{
+    background:#f4f6ff;
+    padding:18px;
+    border-radius:15px;
+    margin-top:18px;
+}
+
+body.dark .task{background:#374151}
+
+input{
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    font-size:16px;
+    margin-top:10px;
+}
+
+button.check,.main-btn{
+    background:#4f6cff;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:10px;
+    margin-top:10px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.result{
+    margin-top:10px;
+    padding:12px;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+.correct{background:#d8ffd8;color:green}
+.wrong{background:#ffd8d8;color:red}
+
+.quiz-option{
+    display:block;
+    background:#eef2ff;
+    padding:12px;
+    border-radius:10px;
+    margin-top:10px;
+    cursor:pointer;
+}
+
+.quiz-option:hover{background:#dbe4ff}
+body.dark .quiz-option{background:#4b5563}
+
+.score{
+    text-align:center;
+    font-size:28px;
+    margin-top:25px;
+    font-weight:bold;
+}
+
+.certificate{
+    display:none;
+    background:#fff3b3;
+    color:#222;
+    border:5px double #2b2bff;
+    padding:25px;
+    border-radius:20px;
+    text-align:center;
+    margin-top:25px;
+}
+
+.bar{margin:10px 0}
+
+.bar-fill{
+    height:28px;
+    background:#4f6cff;
+    border-radius:10px;
+    color:white;
+    padding-left:10px;
+    line-height:28px;
+}
+
+.word{
+    display:inline-block;
+    background:#ffe66d;
+    padding:10px 14px;
+    border-radius:10px;
+    margin:5px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+footer{
+    text-align:center;
+    color:white;
+    padding:25px;
+}
+
+@media(max-width:600px){
+    header{font-size:24px}
+    .page{width:95%;padding:15px}
+    nav button{width:100%}
+}
+</style>
+</head>
+
+<body>
+
+<header>ЛИНГВОФИКС PRO</header>
+
+<nav>
+<button onclick="showPage('home')">Главная</button>
+<button onclick="showPage('assembly')">Сборка</button>
+<button onclick="showPage('gender')">Род</button>
+<button onclick="showPage('prepositions')">Предлоги</button>
+<button onclick="showPage('translation')">Перевод</button>
+<button onclick="showPage('quiz')">Тест</button>
+<button onclick="showPage('game')">Игра</button>
+<button onclick="toggleDark()">🌙 Тема</button>
+</nav>
+
+<div id="home" class="page active">
+<h1>Добро пожаловать!</h1>
+
+<p>Введите имя ученика:</p>
+<input id="studentName" placeholder="Например: Ерганат">
+
+<button class="main-btn" onclick="saveName()">Сохранить имя</button>
+
+<p id="hello"></p>
+
+<p>
+«ЛингвоФикс PRO» — цифровой тренажёр для преодоления языковой интерференции.
+Он помогает исправлять ошибки в переводе, предлогах, порядке слов и грамматике.
+</p>
+
+<h2>Функции приложения</h2>
+<p>Блок «Сборка», блок «Род», блок «Предлоги», блок «Перевод», интеллектуальная подсказка, игровой режим, итоговый тест, таймер, звуки, сертификат, диаграмма результатов, статистика ошибок, тёмная тема и мобильная адаптация.</p>
+</div>
+
+<div id="assembly" class="page">
+<h1>Блок «Сборка» — порядок слов</h1>
+
+<div class="task">
+<p><b>1. Исправь порядок слов:</b> Я вчера книгу читал.</p>
+<input id="s1">
+<button class="check" onclick="checkText('s1','вчера я читал книгу','sr1','wordorder','Ошибка связана с переносом казахского порядка слов. В русском языке лучше: «Вчера я читал книгу».')">Проверить</button>
+<div id="sr1" class="result"></div>
+</div>
+
+<div class="task">
+<p><b>2. Исправь порядок слов:</b> Мы утром школу пришли.</p>
+<input id="s2">
+<button class="check" onclick="checkText('s2','утром мы пришли в школу','sr2','wordorder','В казахском языке сказуемое часто стоит в конце, поэтому появляется неправильный порядок слов.')">Проверить</button>
+<div id="sr2" class="result"></div>
+</div>
+
+<div class="task">
+<p><b>3. Исправь порядок слов:</b> Я домашнее задание вечером делал.</p>
+<input id="s3">
+<button class="check" onclick="checkText('s3','вечером я делал домашнее задание','sr3','wordorder','Нужно поставить слова в естественном порядке для русского языка.')">Проверить</button>
+<div id="sr3" class="result"></div>
+</div>
+</div>
+
+<div id="gender" class="page">
+<h1>Блок «Род» — согласование слов</h1>
+
+<div class="task">
+<p><b>1. Исправь:</b> Мой мама работает учителем.</p>
+<input id="g1">
+<button class="check" onclick="checkText('g1','моя мама работает учителем','gr1','grammar','Ошибка связана с категорией рода. Слово «мама» женского рода.')">Проверить</button>
+<div id="gr1" class="result"></div>
+</div>
+
+<div class="task">
+<p><b>2. Исправь:</b> Красивый книга лежит на столе.</p>
+<input id="g2">
+<button class="check" onclick="checkText('g2','красивая книга лежит на столе','gr2','grammar','Слово «книга» женского рода, поэтому правильно: «красивая книга».')">Проверить</button>
+<div id="gr2" class="result"></div>
+</div>
+
+<div class="task">
+<p><b>3. Исправь:</b> Вкусная яблоко лежит на тарелке.</p>
+<input id="g3">
+<button class="check" onclick="checkText('g3','вкусное яблоко лежит на тарелке','gr3','grammar','Слово «яблоко» среднего рода, поэтому правильно: «вкусное яблоко».')">Проверить</button>
+<div id="gr3" class="result"></div>
+</div>
+</div>
+
+<div id="prepositions" class="page">
+<h1>Блок «Предлоги»</h1>
+
+<div class="task">
+<p><b>1. Вставь предлог:</b> Я пошёл ___ школу.</p>
+<input id="p1">
+<button class="check" onclick="checkText('p1','в','pr1','preposition','В русском языке нужен предлог «в»: пошёл в школу.')">Проверить</button>
+<div id="pr1" class="result"></div>
+</div>
+
+<div class="task">
+<p><b>2. Вставь предлог:</b> Мы готовились ___ уроку.</p>
+<input id="p2">
+<button class="check" onclick="checkText('p2','к','pr2','preposition','Правильно: готовиться к уроку.')">Проверить</button>
+<div id="pr2" class="result"></div>
+</div>
+
+<div class="task">
+<p><b>3. Вставь предлог:</b> Ученики сидели ___ столом.</p>
+<input id="p3">
+<button class="check" onclick="checkText('p3','за','pr3','preposition','Правильно: сидели за столом.')">Проверить</button>
+<div id="pr3" class="result"></div>
+</div>
+</div>
+
+<div id="translation" class="page">
+<h1>Блок «Перевод»</h1>
+
+<div class="task">
+<p><b>1. Переведи:</b> Мен мектепке бардым.</p>
+<input id="t1">
+<button class="check" onclick="checkText('t1','я пошёл в школу','tr1','translation','Нельзя переводить дословно: «Я школа пошёл». Нужен предлог «в».')">Проверить</button>
+<div id="tr1" class="result"></div>
+</div>
+
+<div class="task">
+<p><b>2. Переведи:</b> Мен ауылда тұрамын.</p>
+<input id="t2">
+<button class="check" onclick="checkText('t2','я живу в деревне','tr2','translation','Правильный перевод требует предлога «в».')">Проверить</button>
+<div id="tr2" class="result"></div>
+</div>
+
+<div class="task">
+<p><b>3. Переведи:</b> Мен кеше досыммен кітапханаға бардым.</p>
+<input id="t3">
+<button class="check" onclick="checkText('t3','вчера я ходил в библиотеку с другом','tr3','translation','При переводе важно сохранить смысл и правильный порядок слов.')">Проверить</button>
+<div id="tr3" class="result"></div>
+</div>
+</div>
+
+<div id="quiz" class="page">
+<h1>Итоговый тест — 20 вопросов</h1>
+<p>Время: <span id="timer">0</span> сек.</p>
+<button class="main-btn" onclick="startTimer()">Начать тест</button>
+
+<div id="quizBox"></div>
+
+<div class="score">Результат: <span id="score">0</span> / 20</div>
+
+<button class="main-btn" onclick="finishTest()">Завершить тест</button>
+
+<div id="stats"></div>
+<div id="chart"></div>
+
+<div id="certificate" class="certificate">
+<h1>🏆 Сертификат</h1>
+<h2>участника тренажёра «ЛингвоФикс PRO»</h2>
+<p>Выдан ученику: <b id="certName"></b></p>
+<p>Результат: <b id="certResult"></b></p>
+<p>Оценка: <b id="certGrade"></b></p>
+<p>Дата: <b id="certDate"></b></p>
+</div>
+</div>
+
+<div id="game" class="page">
+<h1>Мини-игра на скорость</h1>
+<p>Выберите правильный вариант как можно быстрее.</p>
+
+<div class="task">
+<p id="gameQuestion"><b>Мой сестра читает книгу.</b></p>
+<button class="check" onclick="gameAnswer(false)">Мой сестра читает книгу</button>
+<button class="check" onclick="gameAnswer(true)">Моя сестра читает книгу</button>
+<button class="check" onclick="gameAnswer(false)">Моя сестра читать книгу</button>
+</div>
+
+<div class="score">Очки игры: <span id="gameScore">0</span></div>
+</div>
+
+<footer>DRK.XB | ЛингвоФикс PRO © 2026</footer>
+
+<script>
+let student="";
+let score=0;
+let seconds=0;
+let timerInterval;
+let answered={};
+let gameScore=0;
+
+let errors={
+    translation:0,
+    wordorder:0,
+    preposition:0,
+    grammar:0
+};
+
+function showPage(id){
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+}
+
+function saveName(){
+    student=document.getElementById("studentName").value;
+    document.getElementById("hello").innerHTML="Здравствуйте, "+student+"!";
+}
+
+function toggleDark(){
+    document.body.classList.toggle("dark");
+}
+
+function soundGood(){
+    let a=new Audio("https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg");
+    a.play();
+}
+
+function soundBad(){
+    let a=new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
+    a.play();
+}
+
+function checkText(inputId,correct,resultId,type,explain){
+    let value=document.getElementById(inputId).value.toLowerCase().trim();
+
+    if(value.includes(correct)){
+        document.getElementById(resultId).innerHTML=
+        "<div class='correct'>✔ Правильно! Ответ: "+correct+"</div>";
+        soundGood();
+    }else{
+        document.getElementById(resultId).innerHTML=
+        "<div class='wrong'>✘ Ошибка. Правильный ответ: "+correct+"<br>Подсказка: "+explain+"</div>";
+        errors[type]++;
+        soundBad();
+    }
+}
+
+function startTimer(){
+    clearInterval(timerInterval);
+    seconds=0;
+    timerInterval=setInterval(()=>{
+        seconds++;
+        document.getElementById("timer").innerText=seconds;
+    },1000);
+}
+
+const questions=[
+["Мен мектепке бардым.","Я пошёл в школу","Я школа пошёл","Я пошёл школа","translation"],
+["Мой сестра читает.","Моя сестра читает","Мой сестра читает","Моя сестра читать","grammar"],
+["Я живу город.","Я живу в городе","Я живу город","Я живу на город","preposition"],
+["Я вчера книгу читал.","Вчера я читал книгу","Я книгу вчера читал","Я вчера книгу читал быстро","wordorder"],
+["Мен ауылда тұрамын.","Я живу в деревне","Я деревне живу","Я живу деревня","translation"],
+["Моя брат играет.","Мой брат играет","Моя брат играет","Мой брат играть","grammar"],
+["Открой свет.","Включи свет","Открой свет","Подними свет","translation"],
+["Мы утром школу пришли.","Мы утром пришли в школу","Мы утром школу пришли","Мы пришли школу утром","wordorder"],
+["Мен кітап оқып отырмын.","Я читаю книгу","Я книгу читать","Я читаю на книгу","translation"],
+["Красивый книга лежит.","Красивая книга лежит","Красивый книга лежит","Красивая книга лежать","grammar"],
+["Я фильм вчера смотрел.","Вчера я смотрел фильм","Я фильм вчера смотрел","Я смотрел вчера фильм быстро","wordorder"],
+["Мен досыммен киноға бардым.","Я пошёл в кино с другом","Я друг кино пошёл","Я пошёл кино с другом","translation"],
+["Я пришёл магазин.","Я пришёл в магазин","Я пришёл магазин","Я пришёл на магазин","preposition"],
+["Мы готовились уроку.","Мы готовились к уроку","Мы готовились уроку","Мы готовились на уроку","preposition"],
+["Мен университетте оқимын.","Я учусь в университете","Я университет учусь","Я учусь университет","translation"],
+["Мой брат хорошо учиться.","Мой брат хорошо учится","Моя брат хорошо учится","Мой брат хорошо учиться","grammar"],
+["Мы домашнее задание вечером делали.","Вечером мы делали домашнее задание","Мы домашнее задание вечером делали","Мы вечером домашнее делали задание","wordorder"],
+["Мен анаммен дүкенге бардым.","Я пошёл в магазин с мамой","Я мама магазин пошёл","Я пошёл магазин с мамой","translation"],
+["Я люблю читать книга.","Я люблю читать книги","Я люблю читать книга","Я люблю читать на книгу","grammar"],
+["Ученики сидели столом.","Ученики сидели за столом","Ученики сидели столом","Ученики сидели на столом","preposition"]
+];
+
+function loadQuiz(){
+    let box=document.getElementById("quizBox");
+    box.innerHTML="";
+
+    questions.forEach((q,i)=>{
+        box.innerHTML+=`
+        <div class="task">
+        <p><b>${i+1}. Выберите правильный вариант:</b></p>
+        <p>${q[0]}</p>
+        <div class="quiz-option" onclick="answerQuiz(${i},this,'${q[1]}','${q[4]}')">${q[1]}</div>
+        <div class="quiz-option" onclick="answerQuiz(${i},this,'${q[2]}','${q[4]}')">${q[2]}</div>
+        <div class="quiz-option" onclick="answerQuiz(${i},this,'${q[3]}','${q[4]}')">${q[3]}</div>
+        </div>`;
+    });
+}
+
+function answerQuiz(index,element,answer,type){
+    if(answered[index]) return;
+    answered[index]=true;
+
+    if(answer===questions[index][1]){
+        element.style.background="#b6ffb6";
+        score++;
+        soundGood();
+    }else{
+        element.style.background="#ffb6b6";
+        errors[type]++;
+        soundBad();
+    }
+
+    document.getElementById("score").innerText=score;
+}
+
+function finishTest(){
+    clearInterval(timerInterval);
+
+    let percent=Math.round(score/20*100);
+    let grade="";
+
+    if(percent>=90) grade="Отлично";
+    else if(percent>=70) grade="Хорошо";
+    else if(percent>=50) grade="Удовлетворительно";
+    else grade="Нужно повторить";
+
+    document.getElementById("certName").innerText=student || "ученик";
+    document.getElementById("certResult").innerText=score+" / 20 ("+percent+"%)";
+    document.getElementById("certGrade").innerText=grade;
+    document.getElementById("certDate").innerText=new Date().toLocaleDateString();
+
+    document.getElementById("certificate").style.display="block";
+
+    showStats();
+    showChart();
+}
+
+function showStats(){
+    document.getElementById("stats").innerHTML=`
+    <h2>📈 Статистика ошибок</h2>
+    <p>Перевод: ${errors.translation}</p>
+    <p>Порядок слов: ${errors.wordorder}</p>
+    <p>Предлоги: ${errors.preposition}</p>
+    <p>Грамматика / род: ${errors.grammar}</p>
+    <p>Время выполнения: ${seconds} секунд</p>
+    `;
+}
+
+function showChart(){
+    let wrong=20-score;
+
+    document.getElementById("chart").innerHTML=`
+    <h2>📊 Диаграмма результатов</h2>
+    <div class="bar">Правильные ответы</div>
+    <div class="bar-fill" style="width:${score*5}%">${score}</div>
+    <div class="bar">Неправильные ответы</div>
+    <div class="bar-fill" style="width:${wrong*5}%;background:#ff4d4d">${wrong}</div>
+    `;
+}
+
+function gameAnswer(correct){
+    if(correct){
+        gameScore++;
+        soundGood();
+    }else{
+        soundBad();
+    }
+
+    document.getElementById("gameScore").innerText=gameScore;
+}
+
+loadQuiz();
+</script>
+
+</body>
+</html>
