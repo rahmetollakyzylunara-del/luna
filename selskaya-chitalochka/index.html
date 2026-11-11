@@ -1,0 +1,787 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ff6f76">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Читалочка">
+  <meta name="description" content="Сельская читалочка — чтение, тесты и школьный книгообмен.">
+  <title>Сельская читалочка</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon.svg">
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjggMTI4IiByb2xlPSJpbWciIGFyaWEtbGFiZWxsZWRieT0idCI+CiAgPHRpdGxlIGlkPSJ0Ij7QodC10LvRjNGB0LrQsNGPINGH0LjRgtCw0LvQvtGH0LrQsDwvdGl0bGU+CiAgPHJlY3Qgd2lkdGg9IjEyOCIgaGVpZ2h0PSIxMjgiIHJ4PSIyOCIgZmlsbD0iI2ZmZjhlZiIvPgogIDxjaXJjbGUgY3g9IjY0IiBjeT0iMzEiIHI9IjEyIiBmaWxsPSIjZmY2Zjc2Ii8+CiAgPHBhdGggZD0iTTIyIDQ1YzE3LTMgMzAgMSA0MiAxMnY0OUM1MSA5NiAzOCA5MiAyMiA5NFY0NXptODQgMGMtMTctMy0zMCAxLTQyIDEydjQ5YzEzLTEwIDI2LTE0IDQyLTEyVjQ1eiIgZmlsbD0iI2ZmNmY3NiIvPgogIDxwYXRoIGQ9Ik02NCA1N3Y0OSIgc3Ryb2tlPSIjZmZmOGVmIiBzdHJva2Utd2lkdGg9IjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxjaXJjbGUgY3g9IjQ4IiBjeT0iNzAiIHI9IjMiIGZpbGw9IiNmZmY4ZWYiLz48Y2lyY2xlIGN4PSI4MCIgY3k9IjcwIiByPSIzIiBmaWxsPSIjZmZmOGVmIi8+CiAgPHBhdGggZD0iTTUwIDgwYzggNyAyMCA3IDI4IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZjhlZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==" type="image/svg+xml">
+  <style>
+:root {
+  --coral: #ff6f76;
+  --coral-dark: #e6515b;
+  --mint: #45c7c1;
+  --mint-soft: #e7fbf9;
+  --yellow: #ffe36e;
+  --ink: #263940;
+  --muted: #65767b;
+  --paper: #fffdfa;
+  --line: #dce5e6;
+  --shadow: 0 14px 38px rgba(38,57,64,.11);
+  --radius: 26px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: var(--ink); background: linear-gradient(140deg,#fff8ef,#eefcfc); font-family: "Trebuchet MS", system-ui, sans-serif; }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+[hidden] { display: none !important; }
+.welcome-shell { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+.welcome-card { width: min(560px,100%); padding: 34px; border: 1px solid rgba(255,255,255,.8); border-radius: 36px; background: rgba(255,255,255,.88); box-shadow: var(--shadow); text-align: center; }
+.welcome-logo { width: 110px; height: 110px; }
+.eyebrow { margin: 0 0 6px; color: var(--coral-dark); font-weight: 800; letter-spacing: .04em; text-transform: uppercase; font-size: .78rem; }
+h1,h2,h3,p { overflow-wrap: anywhere; }
+h1 { margin: 8px 0 14px; font-size: clamp(2.5rem,8vw,4.3rem); line-height: .95; }
+h1 span { color: var(--mint); }
+.join-form,.stack-form { display: grid; gap: 14px; margin-top: 22px; text-align: left; }
+label { display: grid; gap: 7px; font-weight: 800; font-size: .92rem; }
+input,select { width: 100%; border: 2px solid var(--line); border-radius: 15px; padding: 13px 15px; background: white; color: var(--ink); outline: none; }
+input:focus,select:focus { border-color: var(--mint); box-shadow: 0 0 0 4px rgba(69,199,193,.14); }
+.primary,.secondary { border: 0; border-radius: 999px; padding: 15px 22px; font-weight: 900; transition: transform .15s, box-shadow .15s; }
+.primary { color: white; background: linear-gradient(135deg,var(--coral),#ff8790); box-shadow: 0 9px 22px rgba(255,111,118,.28); }
+.secondary { color: var(--coral-dark); background: #ffe8e9; }
+.primary:hover,.secondary:hover { transform: translateY(-2px); }
+.primary.compact { padding: 12px 18px; }
+.privacy-note,.mode-note { margin: 0; color: var(--muted); font-size: .8rem; font-weight: 500; }
+.author-line { display: inline-block; margin: 5px 0 0; padding: 9px 14px; border-radius: 999px; color: #7a5300; background: #fff5bd; font-size: .9rem; }
+.app-shell { min-height: 100vh; padding-bottom: 94px; }
+.topbar { position: sticky; top: 0; z-index: 20; display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 78px; padding: 10px max(18px,calc((100vw - 1000px)/2)); border-bottom: 4px solid var(--yellow); background: rgba(255,255,255,.95); backdrop-filter: blur(12px); }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font-size: 1rem; line-height: 1; font-weight: 800; }
+.brand img { width: 48px; height: 48px; }
+.brand b { color: var(--mint); font-size: 1.1rem; }
+.profile-chip { max-width: 190px; border: 0; border-radius: 999px; padding: 11px 17px; color: white; background: var(--coral); font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+main { width: min(960px,100%); margin: 0 auto; padding: 26px 18px 40px; }
+.page { display: none; animation: rise .22s ease-out; }
+.page.active { display: block; }
+@keyframes rise { from { opacity: 0; transform: translateY(7px); } }
+.hero-card,.info-card,.story-card,.book-card,.leaderboard { border: 1px solid rgba(220,229,230,.9); background: rgba(255,255,255,.94); box-shadow: var(--shadow); border-radius: var(--radius); }
+.hero-card { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 20px; padding: clamp(24px,5vw,48px); }
+.hero-card h2,.page-heading h2 { margin: 5px 0 10px; font-size: clamp(2rem,6vw,3.4rem); line-height: 1.02; }
+.hero-card p { max-width: 560px; color: var(--muted); font-size: 1.07rem; }
+.hero-book { display: grid; place-items: center; width: 160px; height: 160px; border-radius: 50%; background: var(--mint-soft); font-size: 5rem; }
+.stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin: 18px 0; }
+.stats-grid article { display: grid; place-items: center; min-height: 150px; padding: 18px 10px; border: 2px dashed var(--line); border-radius: 22px; background: rgba(255,255,255,.82); text-align: center; }
+.stats-grid span { font-size: 2rem; }
+.stats-grid strong { font-size: 2.2rem; }
+.stats-grid small { color: var(--muted); }
+.info-card { padding: 24px; margin: 18px 0; }
+.info-card h3 { margin-top: 0; font-size: 1.35rem; }
+.steps { display: grid; gap: 10px; padding-left: 24px; }
+.page-heading { margin: 10px 0 24px; }
+.page-heading p:not(.eyebrow) { max-width: 650px; color: var(--muted); }
+.card-list { display: grid; gap: 18px; }
+.story-card,.book-card { padding: 22px; }
+.story-card { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 18px; }
+.story-icon { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 18px; background: var(--mint-soft); font-size: 2rem; }
+.story-card h3,.book-card h3 { margin: 0 0 6px; }
+.story-card p,.book-card p { margin: 4px 0; color: var(--muted); }
+.tag { display: inline-block; margin-bottom: 9px; padding: 5px 10px; border-radius: 999px; color: #227c78; background: var(--mint-soft); font-size: .76rem; font-weight: 900; text-transform: uppercase; }
+.easy-badge { display: inline-block; margin: 0 0 9px 5px; padding: 5px 10px; border-radius: 999px; color: #216a3f; background: #e9f9ef; font-size: .76rem; font-weight: 900; }
+.done-badge { color: #805f00; background: #fff7ce; }
+.section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 30px 0 12px; }
+.text-button { border: 0; background: transparent; color: var(--coral-dark); font-weight: 900; }
+.book-card { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px; }
+.book-owner { font-size: .83rem; }
+.book-status { font-size: .82rem; font-weight: 900; color: #287d60; }
+.leaderboard { overflow: hidden; }
+.leader-row { display: grid; grid-template-columns: 58px 1fr 90px 90px; align-items: center; gap: 8px; padding: 17px 20px; border-bottom: 1px solid var(--line); }
+.leader-row:last-child { border-bottom: 0; }
+.leader-row.header { color: var(--muted); background: #f5f8f8; font-size: .82rem; font-weight: 900; }
+.leader-row.me { background: #fff5f5; }
+.place { font-size: 1.15rem; font-weight: 900; }
+.completed-list { display: grid; gap: 10px; }
+.completed-item { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.empty { color: var(--muted); }
+.soft-warning { background: #fffdf0; border-color: #f1e49b; }
+.bottom-nav { position: fixed; z-index: 30; left: 50%; bottom: 10px; transform: translateX(-50%); display: grid; grid-template-columns: repeat(5,1fr); width: min(680px,calc(100% - 20px)); padding: 8px; border: 1px solid var(--line); border-radius: 26px; background: rgba(255,255,255,.97); box-shadow: 0 15px 40px rgba(38,57,64,.19); backdrop-filter: blur(14px); }
+.bottom-nav button { display: grid; place-items: center; gap: 2px; min-width: 0; border: 0; border-radius: 19px; padding: 8px 4px; color: var(--ink); background: transparent; font-size: .72rem; font-weight: 800; }
+.bottom-nav button span { font-size: 1.45rem; line-height: 1; }
+.bottom-nav button.active { color: var(--coral-dark); background: #ffe8e9; }
+.story-dialog { width: min(760px,calc(100% - 24px)); max-height: 88vh; border: 0; border-radius: 28px; padding: 28px; color: var(--ink); box-shadow: 0 30px 80px rgba(0,0,0,.28); }
+.story-dialog::backdrop { background: rgba(24,39,44,.58); backdrop-filter: blur(4px); }
+.dialog-close { position: sticky; float: right; top: 0; border: 0; width: 40px; height: 40px; border-radius: 50%; background: #eff3f3; font-size: 1.5rem; }
+.story-text { font-family: Georgia,serif; font-size: 1.13rem; line-height: 1.7; white-space: pre-line; }
+.reading-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 16px 0; padding: 14px; border-radius: 18px; background: var(--mint-soft); }
+.reading-tools span { flex-basis: 100%; color: #2c6663; font-size: .86rem; }
+.listen-button { border: 0; border-radius: 999px; padding: 13px 18px; color: white; background: linear-gradient(135deg,#27aaa4,var(--mint)); font-weight: 900; box-shadow: 0 8px 18px rgba(69,199,193,.24); }
+.secondary.compact { padding: 11px 16px; }
+.glossary,.retell-plan { margin-top: 20px; padding: 18px; border-radius: 20px; }
+.glossary { background: #fff9dc; }
+.retell-plan { background: #f3f7ff; }
+.glossary h3,.retell-plan h3 { margin: 0 0 12px; }
+.glossary-grid { display: grid; gap: 9px; }
+.glossary-grid p { display: grid; grid-template-columns: minmax(115px,.6fr) 1.5fr; gap: 10px; margin: 0; padding-bottom: 9px; border-bottom: 1px dashed #decf85; }
+.glossary-grid p:last-child { border-bottom: 0; padding-bottom: 0; }
+.glossary-grid span { color: #655b36; }
+.retell-plan ol { margin: 0; padding-left: 24px; }
+.retell-plan li { margin: 7px 0; }
+.quiz { margin-top: 25px; padding-top: 20px; border-top: 3px solid var(--yellow); }
+.question { margin: 18px 0; }
+.question legend { margin-bottom: 9px; font-weight: 900; }
+.option { display: flex; grid-template-columns: auto 1fr; align-items: center; gap: 9px; margin: 8px 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 13px; font-weight: 500; }
+.option input { width: auto; }
+.quiz-result { margin-top: 15px; padding: 14px; border-radius: 14px; background: var(--mint-soft); font-weight: 900; }
+.mini-game { margin-top: 22px; padding: 20px; border: 3px solid #ffd9dc; border-radius: 22px; background: #fff7f7; }
+.mini-game h3 { margin: 0 0 5px; }
+.mini-game p { margin: 6px 0 14px; color: var(--muted); }
+.game-options { display: grid; gap: 9px; }
+.game-choice { border: 2px solid var(--line); border-radius: 14px; padding: 12px 14px; color: var(--ink); background: white; font-weight: 800; text-align: left; }
+.game-choice:hover,.game-choice:focus { border-color: var(--coral); background: #fff0f1; }
+.game-choice.correct { border-color: #42ad7a; background: #e8faef; }
+.game-choice.wrong { border-color: var(--coral); background: #ffe8e9; }
+.game-result { min-height: 24px; margin-top: 12px; font-weight: 900; }
+.toast { position: fixed; z-index: 100; left: 50%; top: 18px; transform: translate(-50%,-18px); max-width: calc(100% - 30px); padding: 12px 18px; border-radius: 999px; color: white; background: var(--ink); box-shadow: var(--shadow); opacity: 0; pointer-events: none; transition: .25s; }
+.toast.show { transform: translate(-50%,0); opacity: 1; }
+@media (max-width: 650px) {
+  .welcome-card { padding: 24px 18px; }
+  .hero-card { grid-template-columns: 1fr; }
+  .hero-book { width: 100px; height: 100px; font-size: 3.3rem; }
+  .stats-grid article { min-height: 125px; }
+  .story-card { grid-template-columns: auto 1fr; }
+  .story-card .primary { grid-column: 1/-1; }
+  .glossary-grid p { grid-template-columns: 1fr; gap: 3px; }
+  .leader-row { grid-template-columns: 42px 1fr 62px; padding: 15px 12px; }
+  .leader-row > :last-child { display: none; }
+  .book-card { grid-template-columns: 1fr; }
+}
+@media (max-width: 400px) {
+  main { padding-left: 12px; padding-right: 12px; }
+  .stats-grid { gap: 7px; }
+  .stats-grid article { padding: 12px 4px; }
+  .bottom-nav button { font-size: .62rem; }
+  .profile-chip { max-width: 150px; }
+}
+
+</style>
+  <!-- Один автономный файл: стили, логика и значок встроены внутрь. -->
+</head>
+<body>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <section id="welcome" class="welcome-shell">
+    <div class="welcome-card">
+      <img class="welcome-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjggMTI4IiByb2xlPSJpbWciIGFyaWEtbGFiZWxsZWRieT0idCI+CiAgPHRpdGxlIGlkPSJ0Ij7QodC10LvRjNGB0LrQsNGPINGH0LjRgtCw0LvQvtGH0LrQsDwvdGl0bGU+CiAgPHJlY3Qgd2lkdGg9IjEyOCIgaGVpZ2h0PSIxMjgiIHJ4PSIyOCIgZmlsbD0iI2ZmZjhlZiIvPgogIDxjaXJjbGUgY3g9IjY0IiBjeT0iMzEiIHI9IjEyIiBmaWxsPSIjZmY2Zjc2Ii8+CiAgPHBhdGggZD0iTTIyIDQ1YzE3LTMgMzAgMSA0MiAxMnY0OUM1MSA5NiAzOCA5MiAyMiA5NFY0NXptODQgMGMtMTctMy0zMCAxLTQyIDEydjQ5YzEzLTEwIDI2LTE0IDQyLTEyVjQ1eiIgZmlsbD0iI2ZmNmY3NiIvPgogIDxwYXRoIGQ9Ik02NCA1N3Y0OSIgc3Ryb2tlPSIjZmZmOGVmIiBzdHJva2Utd2lkdGg9IjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxjaXJjbGUgY3g9IjQ4IiBjeT0iNzAiIHI9IjMiIGZpbGw9IiNmZmY4ZWYiLz48Y2lyY2xlIGN4PSI4MCIgY3k9IjcwIiByPSIzIiBmaWxsPSIjZmZmOGVmIi8+CiAgPHBhdGggZD0iTTUwIDgwYzggNyAyMCA3IDI4IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZjhlZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==" alt="Красная книга с улыбающимся солнцем">
+      <p class="eyebrow">Исследовательский проект ученицы 3 класса</p>
+      <h1>Сельская<br><span>читалочка</span></h1>
+      <p>Читай короткие рассказы, отвечай на вопросы и обменивайся настоящими книгами с одноклассниками.</p>
+      <p class="author-line">Автор идеи и исследователь: <b>Ракия, 3 класс</b></p>
+      <form id="join-form" class="join-form">
+        <label>Имя или имя с первой буквой фамилии
+          <input id="display-name" maxlength="30" required placeholder="Например: Ракия К.">
+        </label>
+        <label>Класс
+          <select id="grade" required>
+            <option value="3">3 класс</option>
+            <option value="4">4 класс</option>
+          </select>
+        </label>
+        <label>Код школы
+          <input id="school-code" maxlength="20" required autocomplete="off" placeholder="Например: MASALIMOV">
+        </label>
+        <p class="privacy-note">Не вводи фамилию полностью, адрес или номер телефона.</p>
+        <button class="primary" type="submit">Войти в читалочку →</button>
+      </form>
+      <p id="mode-note" class="mode-note"></p>
+    </div>
+  </section>
+
+  <div id="app" class="app-shell" hidden>
+    <header class="topbar">
+      <a class="brand" href="#home" data-route="home" aria-label="На главную">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjggMTI4IiByb2xlPSJpbWciIGFyaWEtbGFiZWxsZWRieT0idCI+CiAgPHRpdGxlIGlkPSJ0Ij7QodC10LvRjNGB0LrQsNGPINGH0LjRgtCw0LvQvtGH0LrQsDwvdGl0bGU+CiAgPHJlY3Qgd2lkdGg9IjEyOCIgaGVpZ2h0PSIxMjgiIHJ4PSIyOCIgZmlsbD0iI2ZmZjhlZiIvPgogIDxjaXJjbGUgY3g9IjY0IiBjeT0iMzEiIHI9IjEyIiBmaWxsPSIjZmY2Zjc2Ii8+CiAgPHBhdGggZD0iTTIyIDQ1YzE3LTMgMzAgMSA0MiAxMnY0OUM1MSA5NiAzOCA5MiAyMiA5NFY0NXptODQgMGMtMTctMy0zMCAxLTQyIDEydjQ5YzEzLTEwIDI2LTE0IDQyLTEyVjQ1eiIgZmlsbD0iI2ZmNmY3NiIvPgogIDxwYXRoIGQ9Ik02NCA1N3Y0OSIgc3Ryb2tlPSIjZmZmOGVmIiBzdHJva2Utd2lkdGg9IjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxjaXJjbGUgY3g9IjQ4IiBjeT0iNzAiIHI9IjMiIGZpbGw9IiNmZmY4ZWYiLz48Y2lyY2xlIGN4PSI4MCIgY3k9IjcwIiByPSIzIiBmaWxsPSIjZmZmOGVmIi8+CiAgPHBhdGggZD0iTTUwIDgwYzggNyAyMCA3IDI4IDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZjhlZiIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==" alt="">
+        <span>Сельская<br><b>читалочка</b></span>
+      </a>
+      <button id="profile-chip" class="profile-chip" type="button" data-route="cabinet"></button>
+    </header>
+
+    <main>
+      <section class="page active" data-page="home">
+        <div class="hero-card">
+          <div>
+            <p class="eyebrow">Добро пожаловать!</p>
+            <h2 id="hello-name">Привет, читатель!</h2>
+            <p>Один рассказ — один маленький шаг к большой читательской привычке.</p>
+            <button class="primary compact" data-route="stories">Начать чтение →</button>
+          </div>
+          <div class="hero-book" aria-hidden="true">📚</div>
+        </div>
+        <div class="stats-grid">
+          <article><span>📖</span><strong id="stat-read">0</strong><small>прочитано</small></article>
+          <article><span>⭐</span><strong id="stat-stars">0</strong><small>звёзд</small></article>
+          <article><span>🔄</span><strong id="stat-books">0</strong><small>книг для обмена</small></article>
+        </div>
+        <section class="info-card">
+          <h3>Как это работает?</h3>
+          <ol class="steps">
+            <li><b>Выбери</b> один лёгкий рассказ.</li>
+            <li><b>Послушай</b> образец и прочитай текст сам.</li>
+            <li><b>Сыграй</b> в маленькую игру по тексту.</li>
+            <li><b>Ответь</b> на три вопроса и получи звёзды.</li>
+          </ol>
+        </section>
+      </section>
+
+      <section class="page" data-page="stories">
+        <div class="page-heading">
+          <p class="eyebrow">Книжная полка</p>
+          <h2>Рассказы для чтения</h2>
+          <p>Все рассказы короткие, лёгкие и понятные. Можно сначала послушать текст, а потом прочитать самому.</p>
+        </div>
+        <div id="story-list" class="card-list"></div>
+      </section>
+
+      <section class="page" data-page="exchange">
+        <div class="page-heading">
+          <p class="eyebrow">Буккроссинг</p>
+          <h2>Школьный книгообмен</h2>
+          <p>Добавь прочитанную бумажную книгу. Одноклассник сможет попросить её для чтения.</p>
+        </div>
+        <section class="info-card">
+          <h3>Добавить книгу</h3>
+          <form id="book-form" class="stack-form">
+            <label>Название книги<input id="book-title" maxlength="80" required></label>
+            <label>Автор<input id="book-author" maxlength="60" required></label>
+            <label>Состояние
+              <select id="book-condition">
+                <option>Хорошее</option><option>Есть небольшие следы чтения</option>
+              </select>
+            </label>
+            <button class="primary compact" type="submit">Добавить на полку</button>
+          </form>
+        </section>
+        <div class="section-title"><h3>Книги нашей школы</h3><button id="refresh-books" class="text-button">Обновить</button></div>
+        <div id="book-list" class="card-list"></div>
+        <div class="section-title"><h3>Мои запросы</h3></div>
+        <div id="request-list" class="card-list"></div>
+      </section>
+
+      <section class="page" data-page="rating">
+        <div class="page-heading">
+          <p class="eyebrow">Общий результат</p>
+          <h2>Рейтинг читателей</h2>
+          <p>Здесь нет заранее придуманных победителей. Таблица меняется после успешно выполненных тестов.</p>
+        </div>
+        <div id="leaderboard" class="leaderboard"></div>
+      </section>
+
+      <section class="page" data-page="cabinet">
+        <div class="page-heading">
+          <p class="eyebrow">Личный кабинет</p>
+          <h2 id="cabinet-name">Моя библиотека</h2>
+          <p id="cabinet-meta"></p>
+        </div>
+        <div class="stats-grid">
+          <article><span>📖</span><strong id="cabinet-read">0</strong><small>рассказов</small></article>
+          <article><span>⭐</span><strong id="cabinet-stars">0</strong><small>звёзд</small></article>
+          <article><span>🏅</span><strong id="cabinet-place">—</strong><small>место</small></article>
+        </div>
+        <section class="info-card">
+          <h3>Прочитанные рассказы</h3>
+          <div id="completed-list" class="completed-list empty">Пока пусто. Начни с первого рассказа.</div>
+        </section>
+        <section class="info-card soft-warning">
+          <h3>Важно для честного исследования</h3>
+          <p>Засчитывается только первый успешный результат по каждому рассказу. Повторное прохождение помогает потренироваться, но не добавляет звёзды второй раз.</p>
+        </section>
+        <button id="logout" class="secondary" type="button">Сменить читателя</button>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Основная навигация">
+      <button class="active" data-route="home"><span>⌂</span>Главная</button>
+      <button data-route="stories"><span>▤</span>Читать</button>
+      <button data-route="exchange"><span>⇄</span>Обмен</button>
+      <button data-route="rating"><span>♛</span>Рейтинг</button>
+      <button data-route="cabinet"><span>●</span>Кабинет</button>
+    </nav>
+  </div>
+
+  <dialog id="story-dialog" class="story-dialog">
+    <button id="close-story" class="dialog-close" type="button" aria-label="Закрыть">×</button>
+    <div id="story-content"></div>
+  </dialog>
+
+  <script>window.CHITALOCHKA_CONFIG={supabaseUrl:"",supabaseAnonKey:"",schoolCodeDefault:"MASALIMOV"};</script>
+  <script>
+"use strict";
+
+const STORIES = [
+  {
+    id: "friend-lantern",
+    tag: "Дружба",
+    title: "Фонарик для друга",
+    minutes: 2,
+    icon: "🔦",
+    text: `После уроков Аян и Данияр шли домой. Возле старого моста было темно. Уличный фонарь не горел. Данияр остановился, потому что боялся идти дальше.
+
+Аян достал маленький фонарик. Свет был слабым, но друзья решили идти вместе. Аян светил на дорожку, а Данияр замечал лужи.
+
+Когда они дошли до дома, Данияр поблагодарил друга. На следующий день он принёс новые батарейки. Ребята также рассказали взрослым о сломанном фонаре.
+
+Аян понял: настоящий друг остаётся рядом и помогает найти выход.`,
+    glossary: [
+      ["батарейка", "маленький источник энергии для фонарика"],
+      ["предупреждал", "заранее говорил о возможной опасности"],
+      ["найти выход", "придумать решение трудной ситуации"]
+    ],
+    questions: [
+      {q:"Почему Данияр остановился?", options:["Боялся тёмной дорожки","Забыл рюкзак","Ждал автобус"], answer:0},
+      {q:"Как друзья дошли до дома?", options:["Шли вместе и помогали друг другу","Побежали по лужам","Вернулись в школу"], answer:0},
+      {q:"Чему учит рассказ?", options:["Нужно помогать друзьям","Нельзя брать фонарик","Нужно идти одному"], answer:0}
+    ],
+    game: {title:"Игра «Кто чем помог?»", prompt:"Что делал Аян на тёмной дороге?", options:["Светил фонариком","Искал автобус","Читал книгу"], answer:0}
+  },
+  {
+    id: "library-seed",
+    tag: "Школа",
+    title: "Книга с зелёной закладкой",
+    minutes: 2,
+    icon: "🔖",
+    text: `В школьной библиотеке Айша увидела тонкую книгу с зелёной закладкой. На обложке не было ярких картинок. Поэтому дети раньше её не замечали.
+
+Айша прочитала рассказ о маленьком семени. История ей понравилась. На следующий день девочка пересказала её одноклассникам. Сначала книгу попросил Арман, а потом он передал её Сауле.
+
+Каждый читатель рисовал на закладке звезду и писал любимое слово. Скоро книга стала известной всему классу.
+
+Айша поняла: книге нужен первый внимательный читатель, который расскажет о ней другим.`,
+    glossary: [
+      ["закладка", "полоска, которая отмечает нужную страницу"],
+      ["обсуждаемая", "та, о которой многие говорят"],
+      ["внимательный читатель", "тот, кто читает не спеша и замечает важное"]
+    ],
+    questions: [
+      {q:"Почему книгу раньше не замечали?", options:["Не было ярких картинок","Она была очень тяжёлой","Она лежала дома"], answer:0},
+      {q:"Что дети рисовали на закладке?", options:["Звезду","Дом","Оценку"], answer:0},
+      {q:"Что помогло книге найти читателей?", options:["Рассказ Айши и книгообмен","Новая цена","Телевизор"], answer:0}
+    ],
+    game: {title:"Игра «Продолжи цепочку»", prompt:"Кому Арман передал книгу?", options:["Сауле","Айше","Учительнице"], answer:0}
+  },
+  {
+    id: "steppe-rain",
+    tag: "Природа",
+    title: "Запах дождя в степи",
+    minutes: 2,
+    icon: "🌧️",
+    text: `Весь день в селе было жарко. Трава высохла, а на дороге стояла пыль. Нурасыл помогал дедушке поливать молодые деревья.
+
+К вечеру появились серые облака. Начался дождь. Воздух запах мокрой землёй. Нурасыл хотел побежать по лужам, но дедушка попросил сначала проверить деревья.
+
+Они поправили опоры и убрали пустое ведро. После дождя листья стали яркими. Возле забора появилась маленькая радуга.
+
+Нурасыл решил и завтра проверить деревья. Он понял: природе нужна наша забота.`,
+    glossary: [
+      ["опора", "предмет, который поддерживает молодое дерево"],
+      ["вдалеке", "на большом расстоянии"],
+      ["зашуршал", "стал издавать тихий шуршащий звук"]
+    ],
+    questions: [
+      {q:"Что делал Нурасыл до дождя?", options:["Поливал деревья","Играл в футбол","Читал книгу"], answer:0},
+      {q:"Что появилось после дождя?", options:["Радуга","Снег","Туман"], answer:0},
+      {q:"Чему учит рассказ?", options:["Заботиться о природе","Бояться дождя","Не выходить из дома"], answer:0}
+    ],
+    game: {title:"Игра «Что было сначала?»", prompt:"Какое событие было первым?", options:["Нурасыл поливал деревья","Появилась радуга","Начался дождь"], answer:0}
+  },
+  {
+    id: "honest-five",
+    tag: "Честность",
+    title: "Не моя пятёрка",
+    minutes: 2,
+    icon: "✏️",
+    text: `На уроке русского языка учительница раздала работы. Милана увидела пятёрку и обрадовалась. Потом она заметила на листе имя другой девочки.
+
+Милана могла промолчать. Но чужая пятёрка не радовала её. Девочка подошла к учительнице и показала лист.
+
+Оказалось, что две работы случайно перепутали. За свою работу Милана получила четвёрку. Учительница похвалила её за честность и помогла исправить ошибку.
+
+Милана поняла: честная четвёрка дороже чужой пятёрки.`,
+    glossary: [
+      ["промолчать", "ничего не сказать о том, что заметил"],
+      ["случайно", "не специально"],
+      ["заработана честно", "получена за собственную работу"]
+    ],
+    questions: [
+      {q:"Что заметила Милана?", options:["На листе было чужое имя","Она потеряла ручку","Не было оценки"], answer:0},
+      {q:"Что сделала девочка?", options:["Сказала учительнице","Спрятала лист","Порвала работу"], answer:0},
+      {q:"Почему четвёрка была дороже пятёрки?", options:["Она была честно заработана","Она была красной","Её поставила мама"], answer:0}
+    ],
+    game: {title:"Игра «Честный выбор»", prompt:"Какой поступок правильный?", options:["Вернуть чужую работу учителю","Оставить чужую пятёрку","Спрятать лист"], answer:0}
+  },
+  {
+    id: "grandma-recipe",
+    tag: "Семья",
+    title: "Рецепт без весов",
+    minutes: 2,
+    icon: "🥣",
+    text: `В воскресенье Ракия попросила бабушку научить её печь баурсаки. Девочка взяла тетрадь, чтобы записать рецепт.
+
+Бабушка показала, как добавлять муку понемногу. Но Ракия поспешила и насыпала всю муку сразу. Тесто получилось слишком плотным.
+
+Ракия расстроилась. Бабушка помогла ей найти ошибку и приготовить новое мягкое тесто. Вечером семья попробовала баурсаки.
+
+Ракия записала в тетради: «Ошибка может стать подсказкой, если внимательно её исправить».`,
+    glossary: [
+      ["понемногу", "не всё сразу, маленькими частями"],
+      ["плотное тесто", "густое и не очень мягкое тесто"],
+      ["причина", "то, из-за чего что-то произошло"]
+    ],
+    questions: [
+      {q:"Что готовили Ракия и бабушка?", options:["Баурсаки","Салат","Суп"], answer:0},
+      {q:"Почему тесто стало плотным?", options:["Всю муку добавили сразу","Не было тетради","Выключили свет"], answer:0},
+      {q:"Какой вывод сделала Ракия?", options:["Ошибку можно исправить","Ошибки надо скрывать","Готовить не нужно"], answer:0}
+    ],
+    game: {title:"Игра «Совет повару»", prompt:"Как нужно добавлять муку?", options:["Понемногу","Всю сразу","Не добавлять"], answer:0}
+  },
+  {
+    id: "old-dictionary",
+    tag: "Русский язык",
+    title: "Старый словарь",
+    minutes: 2,
+    icon: "📘",
+    text: `Во время уборки Ермек нашёл старый словарь. Его обложка потёрлась, а страницы были загнуты. Мальчик хотел убрать книгу, но заметил полезные записи на полях.
+
+Учительница рассказала, что раньше словарём пользовались другие ученики. Они подчёркивали трудные слова и писали понятные примеры.
+
+Ребята расправили страницы и сделали новую обложку. Потом каждый нашёл незнакомое слово и составил с ним предложение.
+
+Ермек понял: старая книга тоже может быть полезной. Её нужно беречь.`,
+    glossary: [
+      ["потёрлась", "стала старой и стёртой от долгого использования"],
+      ["пометки", "короткие записи на полях страницы"],
+      ["бережливый", "тот, кто хранит вещи и не тратит их зря"]
+    ],
+    questions: [
+      {q:"Что нашёл Ермек?", options:["Старый словарь","Новый телефон","Игрушку"], answer:0},
+      {q:"Как дети помогли книге?", options:["Сделали новую обложку","Вырвали страницы","Спрятали её"], answer:0},
+      {q:"Чему учит рассказ?", options:["Беречь полезные книги","Выбрасывать старые книги","Не учить слова"], answer:0}
+    ],
+    game: {title:"Игра «Найди значение»", prompt:"Кто такой бережливый человек?", options:["Тот, кто бережёт вещи","Тот, кто всё теряет","Тот, кто рвёт книги"], answer:0}
+  }
+];
+
+const cfg = window.CHITALOCHKA_CONFIG || {};
+const cloudReady = Boolean(cfg.supabaseUrl && cfg.supabaseAnonKey && window.supabase);
+const db = cloudReady ? window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey) : null;
+const LS = { profile:"chitalochka.profile", reads:"chitalochka.reads", books:"chitalochka.books" };
+let profile = null;
+let completions = [];
+let books = [];
+let leaders = [];
+let requests = [];
+let activeSpeech = null;
+
+const $ = id => document.getElementById(id);
+const escapeHtml = value => String(value ?? "").replace(/[&<>'"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));
+const normalizeCode = value => String(value).trim().toUpperCase().replace(/[^A-ZА-ЯЁ0-9_-]/g, "").slice(0,20);
+const toast = message => { const el=$("toast"); el.textContent=message; el.classList.add("show"); clearTimeout(toast.t); toast.t=setTimeout(()=>el.classList.remove("show"),2600); };
+
+function demoProfileFromForm(name, grade, schoolCode) {
+  return { id:"local-user", display_name:name, grade:String(grade), school_code:schoolCode };
+}
+
+async function init() {
+  $("school-code").value = cfg.schoolCodeDefault || "MASALIMOV";
+  $("mode-note").textContent = cloudReady
+    ? "Общий режим включён: результаты синхронизируются между устройствами."
+    : "Сейчас включён демонстрационный режим. Для общего рейтинга подключите Supabase по инструкции.";
+  bindEvents();
+  if (cloudReady) {
+    const { data:{ session } } = await db.auth.getSession();
+    if (session) await loadCloudProfile(session.user.id);
+  } else {
+    profile = JSON.parse(localStorage.getItem(LS.profile) || "null");
+  }
+  if (profile) await enterApp();
+  if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(()=>{});
+}
+
+function bindEvents() {
+  $("join-form").addEventListener("submit", join);
+  document.addEventListener("click", event => {
+    const routeButton = event.target.closest("[data-route]");
+    if (routeButton) showPage(routeButton.dataset.route);
+    const storyButton = event.target.closest("[data-story]");
+    if (storyButton) openStory(storyButton.dataset.story);
+    const gameButton = event.target.closest("[data-game-choice]");
+    if (gameButton) playGame(gameButton);
+    const speakButton = event.target.closest("[data-speak-story]");
+    if (speakButton) speakStory(speakButton.dataset.speakStory);
+    const stopButton = event.target.closest("[data-stop-speech]");
+    if (stopButton) stopNarration();
+    const requestButton = event.target.closest("[data-request-book]");
+    if (requestButton) requestBook(Number(requestButton.dataset.requestBook));
+    const requestAction = event.target.closest("[data-request-action]");
+    if (requestAction) respondRequest(Number(requestAction.dataset.requestId),requestAction.dataset.requestAction);
+  });
+  $("close-story").addEventListener("click",()=>{ stopNarration(); $("story-dialog").close(); });
+  $("story-dialog").addEventListener("close",stopNarration);
+  $("book-form").addEventListener("submit",addBook);
+  $("refresh-books").addEventListener("click",async()=>{ await Promise.all([loadBooks(),loadRequests()]); renderBooks(); renderRequests(); toast("Полка обновлена"); });
+  $("logout").addEventListener("click",logout);
+  window.addEventListener("hashchange",()=>showPage(location.hash.slice(1)||"home",false));
+}
+
+async function join(event) {
+  event.preventDefault();
+  const name = $("display-name").value.trim().replace(/\s+/g," ");
+  const grade = $("grade").value;
+  const schoolCode = normalizeCode($("school-code").value);
+  if (name.length < 2 || !schoolCode) return toast("Проверь имя и код школы");
+  if (name.split(/\s+/).length > 2) return toast("Для безопасности укажи только имя и первую букву фамилии");
+  if (cloudReady) {
+    let { data:{ session } } = await db.auth.getSession();
+    if (!session) {
+      const { data, error } = await db.auth.signInAnonymously();
+      if (error) return toast("Не удалось войти: проверь настройку Anonymous Sign-Ins");
+      session = data.session;
+    }
+    const row = {id:session.user.id,display_name:name,grade,school_code:schoolCode};
+    const { error } = await db.from("profiles").upsert(row);
+    if (error) return toast("Не удалось сохранить профиль. Проверь schema.sql");
+    profile = row;
+  } else {
+    profile = demoProfileFromForm(name,grade,schoolCode);
+    localStorage.setItem(LS.profile,JSON.stringify(profile));
+  }
+  await enterApp();
+}
+
+async function loadCloudProfile(userId) {
+  const { data } = await db.from("profiles").select("*").eq("id",userId).maybeSingle();
+  profile = data || null;
+}
+
+async function enterApp() {
+  $("welcome").hidden=true; $("app").hidden=false;
+  $("profile-chip").textContent=`${profile.display_name} · ${profile.grade} кл.`;
+  $("hello-name").textContent=`Привет, ${profile.display_name}!`;
+  $("cabinet-name").textContent=`Библиотека: ${profile.display_name}`;
+  $("cabinet-meta").textContent=`${profile.grade} класс · код школы ${profile.school_code}`;
+  await Promise.all([loadCompletions(),loadBooks(),loadLeaders(),loadRequests()]);
+  renderAll();
+  showPage(location.hash.slice(1)||"home",false);
+  if (cloudReady) subscribeRealtime();
+}
+
+async function loadCompletions() {
+  if (cloudReady) {
+    const { data } = await db.from("completed_reads").select("story_id,score,stars,completed_at").order("completed_at");
+    completions = data || [];
+  } else completions = JSON.parse(localStorage.getItem(LS.reads)||"[]");
+}
+
+async function loadBooks() {
+  if (cloudReady) {
+    const { data } = await db.rpc("get_school_books",{p_school_code:profile.school_code});
+    books = data || [];
+  } else books = JSON.parse(localStorage.getItem(LS.books)||"[]").filter(b=>b.school_code===profile.school_code);
+}
+
+async function loadRequests() {
+  if (cloudReady) {
+    const { data } = await db.rpc("get_my_exchange_requests");
+    requests = data || [];
+  } else requests = [];
+}
+
+async function loadLeaders() {
+  if (cloudReady) {
+    const { data } = await db.rpc("get_leaderboard",{p_school_code:profile.school_code});
+    leaders = data || [];
+  } else {
+    leaders = [{display_name:profile.display_name,grade:profile.grade,completed_count:completions.length,stars:completions.reduce((s,x)=>s+x.stars,0),is_me:true}];
+  }
+}
+
+function renderAll() { renderStats(); renderStories(); renderBooks(); renderRequests(); renderLeaders(); renderCompleted(); }
+function renderStats() {
+  const stars=completions.reduce((sum,row)=>sum+Number(row.stars||0),0);
+  for (const id of ["stat-read","cabinet-read"]) $(id).textContent=completions.length;
+  for (const id of ["stat-stars","cabinet-stars"]) $(id).textContent=stars;
+  $("stat-books").textContent=books.filter(b=>b.status==="available").length;
+}
+
+function renderStories() {
+  const completedIds=new Set(completions.map(x=>x.story_id));
+  $("story-list").innerHTML=STORIES.map(story=>`<article class="story-card">
+    <div class="story-icon">${story.icon}</div><div>
+      <span class="tag ${completedIds.has(story.id)?"done-badge":""}">${completedIds.has(story.id)?"✓ Прочитано":escapeHtml(story.tag)}</span>
+      <span class="easy-badge">🌱 Лёгкий рассказ</span>
+      <h3>${escapeHtml(story.title)}</h3><p>Около ${story.minutes} минут · озвучка · 3 вопроса · игра</p>
+    </div><button class="primary compact" data-story="${story.id}">${completedIds.has(story.id)?"Читать снова":"Читать"}</button>
+  </article>`).join("");
+}
+
+function openStory(id) {
+  const story=STORIES.find(x=>x.id===id); if(!story) return;
+  stopNarration();
+  $("story-content").innerHTML=`<span class="tag">${escapeHtml(story.tag)}</span> <span class="easy-badge">🌱 Лёгкий рассказ</span><h2>${escapeHtml(story.title)}</h2>
+    <div class="reading-tools" aria-label="Озвучка рассказа">
+      <button class="listen-button" type="button" data-speak-story="${story.id}">🔊 Слушать правильное чтение</button>
+      <button class="secondary compact" type="button" data-stop-speech>⏹ Остановить</button>
+      <span id="audio-status" role="status" aria-live="polite">Можно сначала послушать, затем прочитать самому.</span>
+    </div>
+    <div class="story-text">${escapeHtml(story.text)}</div>
+    <section class="glossary"><h3>Трудные слова</h3><div class="glossary-grid">${story.glossary.map(([word,meaning])=>`<p><b>${escapeHtml(word)}</b><span>${escapeHtml(meaning)}</span></p>`).join("")}</div></section>
+    <section class="retell-plan"><h3>План для пересказа</h3><ol><li>С чего начался рассказ?</li><li>Что произошло дальше?</li><li>Чем закончился рассказ и чему он учит?</li></ol></section>
+    <section class="mini-game" data-game="${story.id}">
+      <h3>🎮 ${escapeHtml(story.game.title)}</h3>
+      <p>${escapeHtml(story.game.prompt)}</p>
+      <div class="game-options">${story.game.options.map((option,index)=>`<button class="game-choice" type="button" data-game-choice="${index}" data-game-story="${story.id}">${escapeHtml(option)}</button>`).join("")}</div>
+      <div class="game-result" id="game-result-${story.id}" role="status" aria-live="polite"></div>
+    </section>
+    <form id="quiz-form" class="quiz"><h3>Проверь понимание текста</h3>
+      ${story.questions.map((item,qi)=>`<fieldset class="question"><legend>${qi+1}. ${escapeHtml(item.q)}</legend>${item.options.map((option,oi)=>`<label class="option"><input type="radio" name="q${qi}" value="${oi}" required> ${escapeHtml(option)}</label>`).join("")}</fieldset>`).join("")}
+      <button class="primary" type="submit">Проверить ответы</button><div id="quiz-result"></div></form>`;
+  $("quiz-form").addEventListener("submit",event=>finishQuiz(event,story));
+  $("story-dialog").showModal();
+}
+
+function playGame(button) {
+  const story=STORIES.find(item=>item.id===button.dataset.gameStory); if(!story) return;
+  const chosen=Number(button.dataset.gameChoice);
+  const gameBox=button.closest("[data-game]");
+  gameBox.querySelectorAll(".game-choice").forEach((item,index)=>{
+    item.disabled=true;
+    item.classList.toggle("correct",index===story.game.answer);
+    if(index===chosen&&index!==story.game.answer) item.classList.add("wrong");
+  });
+  const result=$("game-result-"+story.id);
+  result.textContent=chosen===story.game.answer?"Верно! Молодец! ⭐":"Почти! Правильный ответ отмечен зелёным.";
+}
+
+function stopNarration() {
+  if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+  activeSpeech = null;
+  const status = $("audio-status");
+  if (status) status.textContent = "Озвучка остановлена.";
+}
+
+function speakStory(id) {
+  const story = STORIES.find(item=>item.id===id);
+  const status = $("audio-status");
+  if (!story || !("speechSynthesis" in window)) {
+    if (status) status.textContent = "На этом устройстве озвучка не поддерживается.";
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(`${story.title}. ${story.text}`);
+  utterance.lang = "ru-RU";
+  utterance.rate = 0.86;
+  utterance.pitch = 1;
+  const russianVoice = window.speechSynthesis.getVoices().find(voice=>voice.lang.toLowerCase().startsWith("ru"));
+  if (russianVoice) utterance.voice = russianVoice;
+  utterance.onstart = ()=>{ if (status) status.textContent = "Идёт озвучка. Следи глазами по тексту."; };
+  utterance.onend = ()=>{ activeSpeech=null; if (status) status.textContent = "Озвучка закончилась. Теперь прочитай рассказ сам."; };
+  utterance.onerror = ()=>{ activeSpeech=null; if (status) status.textContent = "Не удалось включить голос. Проверь звук телефона."; };
+  activeSpeech = utterance;
+  window.speechSynthesis.speak(utterance);
+}
+
+async function finishQuiz(event,story) {
+  event.preventDefault(); const form=new FormData(event.target); let score=0;
+  story.questions.forEach((q,i)=>{ if(Number(form.get(`q${i}`))===q.answer) score++; });
+  const result=$("quiz-result"); result.className="quiz-result";
+  if(score<2) { result.textContent=`${score} из 3. Послушай или прочитай рассказ ещё раз и попробуй снова.`; return; }
+  const already=completions.some(x=>x.story_id===story.id); const stars=score===3?5:3;
+  if (!already) {
+    if (cloudReady) {
+      const { error }=await db.from("completed_reads").insert({user_id:profile.id,story_id:story.id,score,stars});
+      if(error) return toast("Результат не сохранился. Проверь подключение.");
+    } else {
+      completions.push({story_id:story.id,score,stars,completed_at:new Date().toISOString()});
+      localStorage.setItem(LS.reads,JSON.stringify(completions));
+    }
+    await loadCompletions(); await loadLeaders(); renderAll();
+    result.textContent=`Отлично: ${score} из 3! Получено ${stars} звёзд.`;
+  } else result.textContent=`Верно: ${score} из 3. Рассказ уже был засчитан, поэтому новые звёзды не добавлены.`;
+}
+
+async function addBook(event) {
+  event.preventDefault();
+  const row={owner_id:profile.id,school_code:profile.school_code,title:$("book-title").value.trim(),author:$("book-author").value.trim(),condition:$("book-condition").value,status:"available"};
+  if(cloudReady) { const {error}=await db.from("books").insert(row); if(error)return toast("Книга не добавлена"); }
+  else { const all=JSON.parse(localStorage.getItem(LS.books)||"[]"); all.unshift({...row,id:Date.now(),owner_name:profile.display_name,created_at:new Date().toISOString()}); localStorage.setItem(LS.books,JSON.stringify(all)); }
+  event.target.reset(); await loadBooks(); renderAll(); toast("Книга добавлена на общую полку");
+}
+
+function renderBooks() {
+  if(!books.length) { $("book-list").innerHTML='<div class="info-card empty">Пока книг нет. Добавь первую прочитанную книгу.</div>'; return; }
+  $("book-list").innerHTML=books.map(book=>{ const mine=book.owner_id===profile.id; return `<article class="book-card"><div>
+    <span class="tag">${escapeHtml(book.status==="available"?"Доступна":"Забронирована")}</span><h3>${escapeHtml(book.title)}</h3>
+    <p>${escapeHtml(book.author)}</p><p class="book-owner">Владелец: ${escapeHtml(book.owner_name||profile.display_name)} · ${escapeHtml(book.condition)}</p></div>
+    ${mine?'<span class="book-status">Это моя книга</span>':book.status==="available"?`<button class="primary compact" data-request-book="${book.id}">Попросить</button>`:'<span class="book-status">Уже попросили</span>'}
+  </article>`; }).join("");
+}
+
+async function requestBook(bookId) {
+  if(!cloudReady) return toast("В деморежиме запрос показан только на этом телефоне. Подключите Supabase для общего обмена.");
+  const {error}=await db.from("exchange_requests").insert({book_id:bookId,requester_id:profile.id});
+  if(error) toast(error.code==="23505"?"Ты уже попросил эту книгу":"Запрос не отправлен"); else { await loadRequests(); renderRequests(); toast("Запрос отправлен владельцу книги"); }
+}
+
+function renderRequests() {
+  const box=$("request-list");
+  if(!requests.length){box.innerHTML='<div class="info-card empty">Пока запросов нет.</div>';return;}
+  const statusText={pending:"Ожидает решения",accepted:"Принят",declined:"Отклонён",cancelled:"Отменён"};
+  box.innerHTML=requests.map(r=>`<article class="book-card"><div><span class="tag">${r.role==="owner"?"Мне":"От меня"}</span>
+    <h3>${escapeHtml(r.book_title)}</h3><p>${r.role==="owner"?`Просит: ${escapeHtml(r.other_name)}`:`Владелец: ${escapeHtml(r.other_name)}`}</p>
+    <p class="book-status">${escapeHtml(statusText[r.status]||r.status)}</p></div>
+    ${r.role==="owner"&&r.status==="pending"?`<div><button class="primary compact" data-request-id="${r.request_id}" data-request-action="accepted">Принять</button> <button class="secondary" data-request-id="${r.request_id}" data-request-action="declined">Отклонить</button></div>`:""}
+  </article>`).join("");
+}
+
+async function respondRequest(requestId,action) {
+  if(!cloudReady)return;
+  const {error}=await db.rpc("respond_exchange_request",{p_request_id:requestId,p_action:action});
+  if(error)return toast("Не удалось изменить запрос");
+  await Promise.all([loadBooks(),loadRequests()]); renderBooks(); renderRequests(); renderStats();
+  toast(action==="accepted"?"Запрос принят — договоритесь об обмене в школе":"Запрос отклонён");
+}
+
+function renderLeaders() {
+  const sorted=[...leaders].sort((a,b)=>Number(b.stars)-Number(a.stars)||Number(b.completed_count)-Number(a.completed_count));
+  const myIndex=sorted.findIndex(x=>x.is_me||x.display_name===profile.display_name);
+  $("cabinet-place").textContent=myIndex<0?"—":myIndex+1;
+  if(!sorted.length){$("leaderboard").innerHTML='<div class="info-card empty">Рейтинг появится после первого успешного теста.</div>';return;}
+  $("leaderboard").innerHTML='<div class="leader-row header"><span>Место</span><span>Читатель</span><span>Звёзды</span><span>Тексты</span></div>'+sorted.map((row,i)=>`<div class="leader-row ${row.is_me||row.display_name===profile.display_name?"me":""}"><span class="place">${i<3?["🥇","🥈","🥉"][i]:i+1}</span><span><b>${escapeHtml(row.display_name)}</b><br><small>${escapeHtml(row.grade)} класс</small></span><strong>⭐ ${Number(row.stars)}</strong><strong>${Number(row.completed_count)}</strong></div>`).join("");
+}
+
+function renderCompleted() {
+  const items=completions.map(c=>({c,story:STORIES.find(s=>s.id===c.story_id)})).filter(x=>x.story);
+  const box=$("completed-list"); if(!items.length){box.className="completed-list empty";box.textContent="Пока пусто. Начни с первого рассказа.";return;}
+  box.className="completed-list"; box.innerHTML=items.map(({c,story})=>`<div class="completed-item"><span>${story.icon} <b>${escapeHtml(story.title)}</b></span><span>выполнено · ⭐ ${c.stars}</span></div>`).join("");
+}
+
+function showPage(route,push=true) {
+  const valid=["home","stories","exchange","rating","cabinet"]; if(!valid.includes(route))route="home";
+  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.dataset.page===route));
+  document.querySelectorAll(".bottom-nav button").forEach(b=>b.classList.toggle("active",b.dataset.route===route));
+  if(push&&location.hash!==`#${route}`) history.pushState(null,"",`#${route}`);
+  window.scrollTo({top:0,behavior:"smooth"});
+  if(route==="rating") loadLeaders().then(renderLeaders);
+}
+
+function subscribeRealtime() {
+  db.channel(`school-${profile.school_code}`)
+    .on("postgres_changes",{event:"*",schema:"public",table:"completed_reads"},async()=>{await loadLeaders();renderLeaders();})
+    .on("postgres_changes",{event:"*",schema:"public",table:"books",filter:`school_code=eq.${profile.school_code}`},async()=>{await loadBooks();renderBooks();renderStats();})
+    .on("postgres_changes",{event:"*",schema:"public",table:"exchange_requests"},async()=>{await loadRequests();renderRequests();})
+    .subscribe();
+}
+
+async function logout() {
+  if(cloudReady) await db.auth.signOut(); else localStorage.removeItem(LS.profile);
+  profile=null; $("app").hidden=true; $("welcome").hidden=false; location.hash="";
+}
+
+init().catch(error=>{ console.error(error); toast("Ошибка запуска приложения"); });
+
+  </script>
+</body>
+</html>
